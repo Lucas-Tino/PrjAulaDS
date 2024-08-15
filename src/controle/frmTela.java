@@ -3,6 +3,8 @@ package controle;
 
 import conexao.Conexao;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 
 
 public class frmTela extends javax.swing.JFrame {
@@ -14,6 +16,10 @@ public class frmTela extends javax.swing.JFrame {
         initComponents();
         con_cliente = new Conexao();
         con_cliente.conecta();
+        con_cliente.executaSQL("SELECT * FROM tbclientes ORDER BY cod");
+        preencherTabela();
+        posicionarRegistro();
+        tblClientes.setAutoCreateRowSorter(true);
     }
 
     /**
@@ -26,7 +32,7 @@ public class frmTela extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaCadastros = new javax.swing.JTable();
+        tblClientes = new javax.swing.JTable();
         rotuloCodigo = new javax.swing.JLabel();
         rotuloNome = new javax.swing.JLabel();
         rotuloData = new javax.swing.JLabel();
@@ -37,10 +43,14 @@ public class frmTela extends javax.swing.JFrame {
         campoNome = new javax.swing.JTextField();
         campoTelefone = new javax.swing.JTextField();
         campoEmail = new javax.swing.JTextField();
+        botaoPrimeiro = new javax.swing.JButton();
+        botaoAnterior = new javax.swing.JButton();
+        botaoProximo = new javax.swing.JButton();
+        botaoUltimo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tabelaCadastros.setModel(new javax.swing.table.DefaultTableModel(
+        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -59,7 +69,17 @@ public class frmTela extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tabelaCadastros);
+        tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClientesMouseClicked(evt);
+            }
+        });
+        tblClientes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblClientesKeyPressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblClientes);
 
         rotuloCodigo.setText("Código:");
 
@@ -70,6 +90,34 @@ public class frmTela extends javax.swing.JFrame {
         rotuloTelefone.setText("Telefone:");
 
         rotuloEmail.setText("Email:");
+
+        botaoPrimeiro.setText("Primero");
+        botaoPrimeiro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoPrimeiroActionPerformed(evt);
+            }
+        });
+
+        botaoAnterior.setText("Anterior");
+        botaoAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoAnteriorActionPerformed(evt);
+            }
+        });
+
+        botaoProximo.setText("Proximo");
+        botaoProximo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoProximoActionPerformed(evt);
+            }
+        });
+
+        botaoUltimo.setText("Ultimo");
+        botaoUltimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoUltimoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,7 +148,16 @@ public class frmTela extends javax.swing.JFrame {
                                     .addComponent(campoEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(124, 124, 124)
+                        .addComponent(botaoPrimeiro)
+                        .addGap(18, 18, 18)
+                        .addComponent(botaoAnterior)
+                        .addGap(18, 18, 18)
+                        .addComponent(botaoProximo)
+                        .addGap(18, 18, 18)
+                        .addComponent(botaoUltimo)))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -126,17 +183,125 @@ public class frmTela extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rotuloEmail))
-                .addGap(49, 49, 49)
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botaoPrimeiro)
+                    .addComponent(botaoAnterior)
+                    .addComponent(botaoProximo)
+                    .addComponent(botaoUltimo))
+                .addGap(70, 70, 70)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+        int linha_selecionada = tblClientes.getSelectedRow();
+        campoCodigo.setText(tblClientes.getValueAt(linha_selecionada, 0).toString());
+        campoNome.setText(tblClientes.getValueAt(linha_selecionada, 1).toString());
+        campoData.setText(tblClientes.getValueAt(linha_selecionada, 2).toString());
+        campoTelefone.setText(tblClientes.getValueAt(linha_selecionada, 3).toString());
+        campoEmail.setText(tblClientes.getValueAt(linha_selecionada, 4).toString());
+    }//GEN-LAST:event_tblClientesMouseClicked
+
+    private void tblClientesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblClientesKeyPressed
+        int linha_selecionada = tblClientes.getSelectedRow();
+        campoCodigo.setText(tblClientes.getValueAt(linha_selecionada, 0).toString());
+        campoNome.setText(tblClientes.getValueAt(linha_selecionada, 1).toString());
+        campoData.setText(tblClientes.getValueAt(linha_selecionada, 2).toString());
+        campoTelefone.setText(tblClientes.getValueAt(linha_selecionada, 3).toString());
+        campoEmail.setText(tblClientes.getValueAt(linha_selecionada, 4).toString());
+    }//GEN-LAST:event_tblClientesKeyPressed
+
+    private void botaoPrimeiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPrimeiroActionPerformed
+        try {
+            con_cliente.resultset.first();
+            mostrar_Dados();
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Não foi possível posicionar no primeiro registro: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botaoPrimeiroActionPerformed
+
+    private void botaoAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAnteriorActionPerformed
+        try {
+            con_cliente.resultset.previous();
+            mostrar_Dados();
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Não foi possível posicionar no registro anterior: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botaoAnteriorActionPerformed
+
+    private void botaoProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoProximoActionPerformed
+        try {
+            con_cliente.resultset.next();
+            mostrar_Dados();
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Não foi possível posicionar no próximo registro: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botaoProximoActionPerformed
+
+    private void botaoUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoUltimoActionPerformed
+        try {
+            con_cliente.resultset.last();
+            mostrar_Dados();
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Não foi possível posicionar no último registro: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botaoUltimoActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    public void preencherTabela() {
+        tblClientes.getColumnModel().getColumn(0).setPreferredWidth(4);
+        tblClientes.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tblClientes.getColumnModel().getColumn(2).setPreferredWidth(11);
+        tblClientes.getColumnModel().getColumn(3).setPreferredWidth(14);
+        tblClientes.getColumnModel().getColumn(4).setPreferredWidth(100);
+        
+        DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+        modelo.setNumRows(0);
+        
+        try {
+            con_cliente.resultset.beforeFirst();
+            while (con_cliente.resultset.next()) {
+                modelo.addRow(new Object[] {
+                    con_cliente.resultset.getString("cod"),
+                    con_cliente.resultset.getString("nome"),
+                    con_cliente.resultset.getString("dt_nasc"),
+                    con_cliente.resultset.getString("telefone"),
+                    con_cliente.resultset.getString("email")
+                });
+            }
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "\n Erro ao listar dados da tabela!! :\n" +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    public void posicionarRegistro() {
+        try {
+            con_cliente.resultset.first();
+            mostrar_Dados();
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Não foi possível posicionar no primeiro registro: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    public void mostrar_Dados() {
+        try {
+            campoCodigo.setText(con_cliente.resultset.getString("cod"));
+            campoNome.setText(con_cliente.resultset.getString("nome"));
+            campoData.setText(con_cliente.resultset.getString("dt_nasc"));
+            campoTelefone.setText(con_cliente.resultset.getString("telefone"));
+            campoEmail.setText(con_cliente.resultset.getString("email"));
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Não localizou dados: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -170,6 +335,10 @@ public class frmTela extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botaoAnterior;
+    private javax.swing.JButton botaoPrimeiro;
+    private javax.swing.JButton botaoProximo;
+    private javax.swing.JButton botaoUltimo;
     private javax.swing.JTextField campoCodigo;
     private javax.swing.JTextField campoData;
     private javax.swing.JTextField campoEmail;
@@ -181,6 +350,6 @@ public class frmTela extends javax.swing.JFrame {
     private javax.swing.JLabel rotuloEmail;
     private javax.swing.JLabel rotuloNome;
     private javax.swing.JLabel rotuloTelefone;
-    private javax.swing.JTable tabelaCadastros;
+    private javax.swing.JTable tblClientes;
     // End of variables declaration//GEN-END:variables
 }
