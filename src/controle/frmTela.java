@@ -43,10 +43,16 @@ public class frmTela extends javax.swing.JFrame {
         campoNome = new javax.swing.JTextField();
         campoTelefone = new javax.swing.JTextField();
         campoEmail = new javax.swing.JTextField();
+        botoesMover = new javax.swing.JPanel();
+        botaoUltimo = new javax.swing.JButton();
         botaoPrimeiro = new javax.swing.JButton();
         botaoAnterior = new javax.swing.JButton();
         botaoProximo = new javax.swing.JButton();
-        botaoUltimo = new javax.swing.JButton();
+        botoesCrud = new javax.swing.JPanel();
+        botaoNovo = new javax.swing.JButton();
+        botaoCadastrar = new javax.swing.JButton();
+        botaoEditar = new javax.swing.JButton();
+        botaoExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,33 +97,105 @@ public class frmTela extends javax.swing.JFrame {
 
         rotuloEmail.setText("Email:");
 
-        botaoPrimeiro.setText("Primero");
+        botaoUltimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/resultset_last.png"))); // NOI18N
+        botaoUltimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoUltimoActionPerformed(evt);
+            }
+        });
+
+        botaoPrimeiro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/resultset_first.png"))); // NOI18N
         botaoPrimeiro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoPrimeiroActionPerformed(evt);
             }
         });
 
-        botaoAnterior.setText("Anterior");
+        botaoAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/resultset_previous.png"))); // NOI18N
         botaoAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoAnteriorActionPerformed(evt);
             }
         });
 
-        botaoProximo.setText("Proximo");
+        botaoProximo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/resultset_next.png"))); // NOI18N
         botaoProximo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoProximoActionPerformed(evt);
             }
         });
 
-        botaoUltimo.setText("Ultimo");
-        botaoUltimo.addActionListener(new java.awt.event.ActionListener() {
+        javax.swing.GroupLayout botoesMoverLayout = new javax.swing.GroupLayout(botoesMover);
+        botoesMover.setLayout(botoesMoverLayout);
+        botoesMoverLayout.setHorizontalGroup(
+            botoesMoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(botoesMoverLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(botaoPrimeiro, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botaoAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botaoProximo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botaoUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        botoesMoverLayout.setVerticalGroup(
+            botoesMoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(botoesMoverLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(botoesMoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botaoUltimo)
+                    .addComponent(botaoPrimeiro)
+                    .addComponent(botaoProximo)
+                    .addComponent(botaoAnterior))
+                .addContainerGap())
+        );
+
+        botaoNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/add.png"))); // NOI18N
+        botaoNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoUltimoActionPerformed(evt);
+                botaoNovoActionPerformed(evt);
             }
         });
+
+        botaoCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/save_16x16.gif"))); // NOI18N
+        botaoCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoCadastrarActionPerformed(evt);
+            }
+        });
+
+        botaoEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/page_white_edit.png"))); // NOI18N
+
+        botaoExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/page_delete.png"))); // NOI18N
+
+        javax.swing.GroupLayout botoesCrudLayout = new javax.swing.GroupLayout(botoesCrud);
+        botoesCrud.setLayout(botoesCrudLayout);
+        botoesCrudLayout.setHorizontalGroup(
+            botoesCrudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(botoesCrudLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(botaoNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botaoCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botaoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botaoExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        botoesCrudLayout.setVerticalGroup(
+            botoesCrudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(botoesCrudLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(botoesCrudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(botaoCadastrar)
+                    .addComponent(botaoNovo)
+                    .addComponent(botaoEditar)
+                    .addComponent(botaoExcluir))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,18 +225,14 @@ public class frmTela extends javax.swing.JFrame {
                                     .addComponent(campoTelefone)
                                     .addComponent(campoEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(124, 124, 124)
-                        .addComponent(botaoPrimeiro)
-                        .addGap(18, 18, 18)
-                        .addComponent(botaoAnterior)
-                        .addGap(18, 18, 18)
-                        .addComponent(botaoProximo)
-                        .addGap(18, 18, 18)
-                        .addComponent(botaoUltimo)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(botoesMover, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(48, 48, 48)
+                                .addComponent(botoesCrud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,30 +242,29 @@ public class frmTela extends javax.swing.JFrame {
                     .addComponent(rotuloCodigo)
                     .addComponent(campoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rotuloNome)
-                    .addComponent(campoNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rotuloData)
-                    .addComponent(campoData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rotuloTelefone))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rotuloEmail))
-                .addGap(50, 50, 50)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botaoPrimeiro)
-                    .addComponent(botaoAnterior)
-                    .addComponent(botaoProximo)
-                    .addComponent(botaoUltimo))
-                .addGap(70, 70, 70)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rotuloNome)
+                            .addComponent(campoNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rotuloData)
+                            .addComponent(campoData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(campoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rotuloTelefone))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rotuloEmail))
+                        .addGap(18, 18, 18)
+                        .addComponent(botoesMover, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botoesCrud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
 
         pack();
@@ -250,6 +323,34 @@ public class frmTela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Não foi possível posicionar no último registro: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_botaoUltimoActionPerformed
+
+    private void botaoNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoNovoActionPerformed
+        campoCodigo.setText("");
+        campoNome.setText("");
+        campoData.setText("");
+        campoTelefone.setText("");
+        campoEmail.setText("");
+        campoCodigo.requestFocus();
+    }//GEN-LAST:event_botaoNovoActionPerformed
+
+    private void botaoCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCadastrarActionPerformed
+        String nome = campoNome.getText();
+        String dataNasc = campoData.getText();
+        String telefone = campoTelefone.getText();
+        String email = campoEmail.getText();
+        
+        try {
+            String insert_sql = "";
+            con_cliente.statement.executeUpdate(insert_sql);
+            JOptionPane.showMessageDialog(null, "Gravação realizada com sucesso!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+            con_cliente.executaSQL("SELECT * FROM tbclientes ORDER BY cod");
+            con_cliente.resultset.first();
+            preencherTabela();
+            mostrar_Dados();
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro na gravação: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botaoCadastrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -336,9 +437,15 @@ public class frmTela extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoAnterior;
+    private javax.swing.JButton botaoCadastrar;
+    private javax.swing.JButton botaoEditar;
+    private javax.swing.JButton botaoExcluir;
+    private javax.swing.JButton botaoNovo;
     private javax.swing.JButton botaoPrimeiro;
     private javax.swing.JButton botaoProximo;
     private javax.swing.JButton botaoUltimo;
+    private javax.swing.JPanel botoesCrud;
+    private javax.swing.JPanel botoesMover;
     private javax.swing.JTextField campoCodigo;
     private javax.swing.JTextField campoData;
     private javax.swing.JTextField campoEmail;
