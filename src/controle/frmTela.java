@@ -53,6 +53,8 @@ public class frmTela extends javax.swing.JFrame {
         botaoCadastrar = new javax.swing.JButton();
         botaoEditar = new javax.swing.JButton();
         botaoExcluir = new javax.swing.JButton();
+        rotuloPesquisa = new javax.swing.JLabel();
+        campoPesquisa = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -167,8 +169,18 @@ public class frmTela extends javax.swing.JFrame {
         });
 
         botaoEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/page_white_edit.png"))); // NOI18N
+        botaoEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoEditarActionPerformed(evt);
+            }
+        });
 
         botaoExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/page_delete.png"))); // NOI18N
+        botaoExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout botoesCrudLayout = new javax.swing.GroupLayout(botoesCrud);
         botoesCrud.setLayout(botoesCrudLayout);
@@ -196,6 +208,14 @@ public class frmTela extends javax.swing.JFrame {
                     .addComponent(botaoExcluir))
                 .addContainerGap())
         );
+
+        rotuloPesquisa.setText("Pesquisa por nome:");
+
+        campoPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoPesquisaKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -231,7 +251,12 @@ public class frmTela extends javax.swing.JFrame {
                                 .addComponent(botoesMover, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(48, 48, 48)
                                 .addComponent(botoesCrud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(126, 126, 126)
+                        .addComponent(rotuloPesquisa)
+                        .addGap(18, 18, 18)
+                        .addComponent(campoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -264,7 +289,11 @@ public class frmTela extends javax.swing.JFrame {
                     .addComponent(botoesCrud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rotuloPesquisa)
+                    .addComponent(campoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
 
         pack();
@@ -351,6 +380,73 @@ public class frmTela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro na gravação: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_botaoCadastrarActionPerformed
+
+    private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
+        String nome = campoNome.getText();
+        String dataNasc = campoData.getText();
+        String telefone = campoTelefone.getText();
+        String email = campoEmail.getText();
+        String sql = "";
+        String msg = "";
+        
+        try {
+            if(campoCodigo.getText().equals("")) {
+                sql = "INSERT INTO tbclientes (nome, telefone, email, dt_nasc) VALUES ('" +nome +"','" +telefone +"','" +email +"','" +dataNasc +"')";
+                msg = "Gravação de um novo registro";
+            } else {
+                sql = "UPDATE tbclientes SET nome='" +nome +"', telefone='" +telefone +"', email='" +email +"', dt_nasc='" +dataNasc +"' WHERE cod = " +campoCodigo.getText();
+                msg = "Alteração de registro";
+            }
+            
+            con_cliente.statement.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, msg +" realizada com sucesso!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+            
+            con_cliente.executaSQL("SELECT * FROM tbclientes ORDER BY cod");
+            con_cliente.resultset.first();
+            preencherTabela();
+            mostrar_Dados();
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro na gravação: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botaoEditarActionPerformed
+
+    private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
+        String sql = "";
+        
+        try {
+            int resposta = JOptionPane.showConfirmDialog(rootPane, "Deseja excluir o registro: ", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION, 3);
+            if (resposta == 0) {
+                sql = "DELETE FROM tbclientes WHERE cod = " +campoCodigo.getText();
+                int excluir = con_cliente.statement.executeUpdate(sql);
+                if (excluir == 1) {
+                    JOptionPane.showMessageDialog(null, "Exclusão realizada com sucesso!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+                    con_cliente.executaSQL("SELECT * FROM tbclientes ORDER BY cod");
+                    con_cliente.resultset.first();
+                    preencherTabela();
+                    mostrar_Dados();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Operação cancelada pelo usuário!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro na exclusão: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botaoExcluirActionPerformed
+
+    private void campoPesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoPesquisaKeyReleased
+        try {
+            String pesquisa = "SELECT * FROM tbclientes WHERE nome like '" +campoPesquisa.getText() +"%'";
+            con_cliente.executaSQL(pesquisa);
+            
+            if (con_cliente.resultset.first()) {
+                preencherTabela();
+            } else {
+                JOptionPane.showMessageDialog(null,"\n Não existem dados com este parâmetro!","Mensagem do Programa",JOptionPane.INFORMATION_MESSAGE);   
+            }
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Os dados digitados não foram localizados! :\n " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_campoPesquisaKeyReleased
 
     /**
      * @param args the command line arguments
@@ -450,12 +546,14 @@ public class frmTela extends javax.swing.JFrame {
     private javax.swing.JTextField campoData;
     private javax.swing.JTextField campoEmail;
     private javax.swing.JTextField campoNome;
+    private javax.swing.JTextField campoPesquisa;
     private javax.swing.JTextField campoTelefone;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel rotuloCodigo;
     private javax.swing.JLabel rotuloData;
     private javax.swing.JLabel rotuloEmail;
     private javax.swing.JLabel rotuloNome;
+    private javax.swing.JLabel rotuloPesquisa;
     private javax.swing.JLabel rotuloTelefone;
     private javax.swing.JTable tblClientes;
     // End of variables declaration//GEN-END:variables
