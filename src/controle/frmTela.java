@@ -245,19 +245,19 @@ public class frmTela extends javax.swing.JFrame {
                                     .addComponent(campoTelefone)
                                     .addComponent(campoEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(botoesMover, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)
-                                .addComponent(botoesCrud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(126, 126, 126)
                         .addComponent(rotuloPesquisa)
                         .addGap(18, 18, 18)
-                        .addComponent(campoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                        .addComponent(campoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(botoesMover, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(48, 48, 48)
+                                .addComponent(botoesCrud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,12 +369,12 @@ public class frmTela extends javax.swing.JFrame {
         String email = campoEmail.getText();
         
         try {
-            String insert_sql = "";
+            String insert_sql="insert into tbclientes (nome,telefone, email, dt_nasc) values ('" + nome + "','" +telefone + "','" + email + "','" + dataNasc + "')";
             con_cliente.statement.executeUpdate(insert_sql);
             JOptionPane.showMessageDialog(null, "Gravação realizada com sucesso!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
             con_cliente.executaSQL("SELECT * FROM tbclientes ORDER BY cod");
-            con_cliente.resultset.first();
             preencherTabela();
+            con_cliente.resultset.first();
             mostrar_Dados();
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro na gravação: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
@@ -402,8 +402,8 @@ public class frmTela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, msg +" realizada com sucesso!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
             
             con_cliente.executaSQL("SELECT * FROM tbclientes ORDER BY cod");
-            con_cliente.resultset.first();
             preencherTabela();
+            con_cliente.resultset.first();
             mostrar_Dados();
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro na gravação: " +erro, "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
@@ -421,8 +421,8 @@ public class frmTela extends javax.swing.JFrame {
                 if (excluir == 1) {
                     JOptionPane.showMessageDialog(null, "Exclusão realizada com sucesso!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
                     con_cliente.executaSQL("SELECT * FROM tbclientes ORDER BY cod");
-                    con_cliente.resultset.first();
                     preencherTabela();
+                    con_cliente.resultset.first();
                     mostrar_Dados();
                 } else {
                     JOptionPane.showMessageDialog(null, "Operação cancelada pelo usuário!", "Mensagem do Programa", JOptionPane.INFORMATION_MESSAGE);
